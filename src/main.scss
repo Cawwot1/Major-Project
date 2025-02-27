@@ -1,0 +1,428 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Custom styles go below
+
+:root {
+  //Vertical Positioning
+  --wg-nav-bar-height: 37px;  // Set the initial height of the wargaming-nav-bar
+  --tracker-nav-bar-vertical-height: 30px;  // Set the initial height of the wargaming-nav-bar
+
+  //Margins
+  --horizontal-margin: 92px; // Must be >=65px due to Tracker Nav Bar
+}
+
+///*** General tags
+
+a {
+  text-decoration: none;
+}
+
+///*** Extra Elements
+
+.dropdown-arrow {
+  border: solid grey;
+  border-width: 0 1.75px 1.75px 0;
+  display: inline-block;
+  padding: 2px;
+  -webkit-transform: rotate(45deg);
+  transform: translateY(-2px) rotate(45deg);
+  margin-left: 3px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+///***
+/* HEADER START*/
+///***
+
+.header {
+  width: 100%;
+  text-decoration: none;
+}
+
+///*** Tracker Nav Bar
+
+.tracker-nav-bar {
+  overflow: hidden;
+  background: rgb(12, 18, 24);
+  opacity: 0.95;
+  height: calc(var(--wg-nav-bar-height) + var(--tracker-nav-bar-vertical-height));
+  width: 100%; /* Stretches across the entire screen */
+  color: grey;
+  text-align: left; /* Align text to the left */
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  transition: color 0.2s linear;
+  position: fixed; /* Makes it stick at the top of the screen */
+  top: calc(var(--wg-nav-bar-height)); /* Adjust the top based on the wargaming-nav-bar height */
+  z-index: 80; /* Below the wargaming-nav-bar */
+  display: flex; /* Flexbox layout to easily align content */
+  align-items: center; /* Vertically centers content */
+  justify-content: flex-start; /* Aligns items to the left */
+}
+
+.tracker-nav-bar-buttons {
+  //background-color: #04AA6D; USE FOR DEBUG !!!
+  text-decoration: none;
+  display: inline-block;
+  align-items: center;  /* Vertically center the content */
+  justify-content: center;  /* Horizontally center the content */
+  padding: calc(var(--tracker-nav-bar-vertical-height) - 5px) 0px;  // Vertical padding from variable
+  text-align: center;
+  line-height: 1;  /* Ensures no extra space vertically */
+  margin: 0px 0px 0px 20px;  /* Adds space between buttons */
+}
+
+.tracker-nav-bar-elements {
+  display: flex;
+  align-items: center; /* Vertically centers items inside */
+  justify-content: flex-start; /* Aligns items to the left */
+}
+
+.tracker-nav-bar-elements a {
+  text-decoration: none;
+  color: grey;
+  position: relative; //Border Animation
+  display: inline-block; //Border Animation
+}
+
+.tracker-nav-bar-elements a::after { //Border Animation
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background-color: white;
+  transition: width 0.2s linear, left 0.2s linear;
+}
+
+.tracker-nav-bar-elements a:hover::after { //Border Animation
+  width: 100%;
+  left: 0;
+}
+
+.tracker-nav-bar-elements a:hover {
+  color: lightgrey;
+  transition: color 0.2s linear;
+}
+
+.tracker-nav-bar-elements a.active {
+  color: white;
+}
+
+#wotb_logo {
+  float: left;
+  scale: 52%;
+  margin: 0px 0px 0px calc(var(--horizontal-margin));
+}
+
+.tracker-nav-bar a.logo {
+  float: left;
+  font-size: 30px;
+  font-weight: bold;
+  color: lightgrey;
+}
+
+///*** Wargaming Nav Bar Elements
+
+.wargaming-nav-bar {
+  display: flex;
+  padding: 0px 10px;
+  margin: auto;
+  width: 100%;
+  background: black; /* Example background color */
+  color: white;
+  text-align: center;
+  align-items: top;
+  position: fixed; /* Fixes the navbar at the top */
+  top: 0; /* Places it at the top of the page */
+  left: 0;
+  z-index: 100; /* Ensures it stays above other elements */
+  box-sizing: border-box;
+  height: var(--wg-nav-bar-height);  // Use the variable for height
+  border-bottom: 0.1px solid #525454; /* Add a border to create the divider effect */ 
+  color: grey;
+  font-family: Arial, "Helvetica CY", Helvetica, sans-serif;
+  font-size: 13px;
+}
+
+//WG Logo
+
+#wg-logo-wrapper-main {
+  height: 37px;
+  line-height: 37px;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  position: relative; /* Make sure the wrapper is relative for absolute positioning of logos */
+}
+
+#wg-logo-icon-holder {
+  transform: translateY(-1px);
+  width: 19px;
+  height: 19px;
+  line-height: 19px;
+  vertical-align: middle;
+  position: relative; /* Ensure icons are stacked correctly */
+  float: left;
+}
+
+#wg-logo {
+  display: inline-block;
+  height: 20px;
+  width: auto;
+  background-size: cover;
+  //ADD RETURN TRANSITION & FILTER
+}
+
+#wg-logo:hover, #wg-logo:focus{
+  filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(2%) hue-rotate(324deg) brightness(106%) contrast(101%);
+}
+
+//Games dropdown
+
+#wg-games-wrapper-main{
+  height: 37px;
+  line-height: 37px;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 8px;
+  cursor: pointer;
+}
+
+#wg-games-holder{
+  vertical-align: middle;
+}
+
+#wargaming-nav-bar-games-text{
+  display: inline;
+  text-decoration: none;
+  font-family: Arial, "Helvetica CY", Helvetica, sans-serif;
+  font-size: 13px;
+  color: grey;
+}
+
+#wg-games-wrapper-main:hover #wargaming-nav-bar-games-text{
+  color: white;
+}
+
+#wg-games-wrapper-main:hover .dropdown-arrow {
+  border: solid white;
+  border-width: 0 1.75px 1.75px 0;
+  display: inline-block;
+  padding: 2px;
+  -webkit-transform: rotate(45deg);
+  transform: translateY(-2px) rotate(45deg);
+  margin-left: 3px;
+}
+
+//Services dropdown
+
+#wg-services-wrapper-main{
+  height: 37px;
+  line-height: 37px;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 11px;
+  cursor: pointer;
+}
+
+#wg-services-holder{
+  vertical-align: middle;
+}
+
+#wargaming-nav-bar-services-text{
+  display: inline;
+  text-decoration: none;
+  font-family: Arial, "Helvetica CY", Helvetica, sans-serif;
+  font-size: 13px;
+  color: grey;
+}
+
+#wg-services-wrapper-main:hover #wargaming-nav-bar-services-text{
+  color: white;
+}
+
+#wg-services-wrapper-main:hover .dropdown-arrow {
+  border: solid white;
+  border-width: 0 1.75px 1.75px 0;
+  display: inline-block;
+  padding: 2px;
+  -webkit-transform: rotate(45deg);
+  transform: translateY(-2px) rotate(45deg);
+  margin-left: 3px;
+}
+
+//Premium Shop
+
+#wg-premium-wrapper-main{
+  height: 37px;
+  line-height: 37px;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 11px;
+  cursor: pointer;
+}
+
+#wg-premium-holder{
+  vertical-align: middle;
+}
+
+#wargaming-nav-bar-premium-text{
+  display: inline;
+  text-decoration: none;
+  font-family: Arial, "Helvetica CY", Helvetica, sans-serif;
+  font-size: 13px;
+  color: #99712d;;
+}
+
+#wg-premium-wrapper-main:hover #wargaming-nav-bar-premium-text{
+  color: rgb(242, 191, 96);
+}
+
+//Player Support
+
+#wg-support-wrapper-main{
+  height: 37px;
+  line-height: 37px;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 15px;
+  cursor: pointer;
+}
+
+#wg-support-holder{
+  vertical-align: middle;
+}
+
+#wargaming-nav-bar-support-text{
+  display: inline;
+  text-decoration: none;
+  font-family: Arial, "Helvetica CY", Helvetica, sans-serif;
+  font-size: 13px;
+  color: grey;;
+}
+
+#wg-support-wrapper-main:hover #wargaming-nav-bar-support-text{
+  color: white;
+}
+
+///***NOT IMPLEMENTED YET (need JS)
+
+#games-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+
+///***
+/* Header END -> BODY START*/
+///***
+
+body {
+  //background: rgb(18, 26, 34);
+  background-image: url("../assets/WOTB Background Tiger.jpg");
+  background-size: cover; /* Ensures the image covers the entire screen */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents tiling */
+  height: 100vh; /* Ensures the body takes full viewport height */
+  margin: 0; /* Removes default margin */
+}
+
+.main_content {
+  padding-top: calc(var(--wg-nav-bar-height) + var(--tracker-nav-bar-vertical-height) + 80px); /* Pushes content down below fixed navbars */
+  margin: 0px 105px 0px 105px;
+}
+
+#player-search-form-container{
+  height: auto;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  padding: 0;
+  backdrop-filter: blur(5px);
+}
+
+#search-player-form-label{
+  color: white;
+  font-size: 2.5em;
+  font-weight: 600;
+  padding: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+#player-search-form{
+  font-size: 1.5em;
+  height: 70px;
+  color: white;
+  text-align: center;
+  border-radius: 0; 
+  width: 100%;
+  background: rgba(86, 86, 86, 0.5);
+  border: none;
+}
+
+#player-search-form::placeholder {
+  color: rgb(216, 216, 216); /* Change to your desired color */
+  font-size: 1.2em;
+  text-align: center;
+}
+
+#player-search-form:focus {
+  border: 2px solid rgb(125, 184, 204); /* Adds a light blue border */
+  border-radius: 5px;
+  box-shadow: none;
+  outline: none; /* Removes the default outline */
+}
+
+.banner_background {
+  background: rgb(32, 39, 47);
+}
+
+#home-player-search-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  align-content: center;
+}
+
+#home-player-search-button{
+  background: rgb(24, 137, 174);
+  border-radius: 25px;
+  padding: 12px 20px;
+  transition: scale 0.1s linear;
+}
+
+#home-player-search-button:hover{
+  background: rgb(29, 166, 211);
+  scale: 103%;
+  transition: scale 0.1s linear;
+}
