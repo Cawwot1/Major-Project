@@ -358,7 +358,7 @@ body {
 
 .main_content {
   padding-top: calc(var(--wg-nav-bar-height) + var(--tracker-nav-bar-vertical-height) + 80px); /* Pushes content down below fixed navbars */
-  margin: 0px 105px 0px 105px;
+  margin: 0px 150px 0px 150px;
 }
 
 #player-search-form-container{
@@ -425,4 +425,60 @@ body {
   background: rgb(29, 166, 211);
   scale: 103%;
   transition: scale 0.1s linear;
+}
+
+#discord-container-padding {
+  height: auto;
+  padding: 40px 0px;
+}
+
+#discord-container {
+  display: flex;
+  align-items: center; /* Aligns items vertically */
+  justify-content: flex-start; /* Moves content to the left */
+  text-align: left;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  height: 60px;
+  padding: 0px 0px 0px 0px;
+  max-width: 100%; /* Prevents overflow */
+}
+
+#discord-logo-wrapper-main {
+  display: flex;
+  align-items: center;
+  padding: 0px 16px 0px 20px;
+  height: 100%;
+}
+
+#discord-logo-icon-holder {
+  display: inline-block;
+  height: auto;
+  width: auto;
+  background-size: cover;
+  transition: scale 0.1s linear;
+}
+
+
+#discord-logo {
+  filter: brightness(3);
+  width: 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: filter 0.2s linear, scale 0.15s linear;
+}
+
+#discord-logo-wrapper-main:hover #discord-logo {
+  scale: 110%;
+  filter: brightness(1);
+}
+
+#discord-text {
+  color: White;
+  font-size: 1.5em;
+  margin: 0;
+  white-space: nowrap;
+  padding: 0px 10px 0px 0px;
 }
