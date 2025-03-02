@@ -12280,9 +12280,9 @@ body {
   margin: 0; /* Removes default margin */
 }
 
-.main_content {
+.main-content {
   padding-top: calc(var(--wg-nav-bar-height) + var(--tracker-nav-bar-vertical-height) + 80px); /* Pushes content down below fixed navbars */
-  margin: 0px 150px 0px 150px;
+  margin: 0px 210px 0px 210px;
 }
 
 #player-search-form-container {
