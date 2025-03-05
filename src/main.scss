@@ -347,17 +347,27 @@ a {
 ///***
 
 body {
-  //background: rgb(18, 26, 34);
-  background-image: url("../assets/WOTB Background Tiger.jpg");
-  background-size: cover; /* Ensures the image covers the entire screen */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents tiling */
   height: 100vh; /* Ensures the body takes full viewport height */
-  margin: 0; /* Removes default margin */
+  background-color: rgb(12, 18, 24);
 }
 
-.main-content {
-  padding-top: calc(var(--wg-nav-bar-height) + var(--tracker-nav-bar-vertical-height) + 80px); /* Pushes content down below fixed navbars */
+#main-content {
+  padding-top: calc(var(--wg-nav-bar-height) + var(--tracker-nav-bar-vertical-height) + 40px); /* Pushes content down below fixed navbars */
+  background-color: rgb(12, 18, 24);
+}
+
+#section-search-player-background{
+  background-image: linear-gradient(to bottom, transparent 0%, transparent 50%, rgb(12, 18, 24)),
+                    url("../assets/WOTB Background Tiger.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;  /* Ensures the image covers the entire background */
+  width: 100%;
+  height: auto;
+  padding: 80px 0px 120px 0px;
+}
+
+#section-search-player {
   margin: 0px 210px 0px 210px;
 }
 
@@ -429,7 +439,7 @@ body {
 
 #discord-container-padding {
   height: auto;
-  padding: 40px 0px;
+  padding: 40px 0px 0px 0px;                                                                     /*1000px IS TEMPORARY*/ 
 }
 
 #discord-container {
@@ -460,7 +470,6 @@ body {
   transition: scale 0.1s linear;
 }
 
-
 #discord-logo {
   filter: brightness(3);
   width: 40px;
@@ -481,4 +490,54 @@ body {
   margin: 0;
   white-space: nowrap;
   padding: 0px 10px 0px 0px;
+}
+
+#news-section{
+  margin: 0px 210px 0px 210px;
+}
+
+#news-container {
+  display: flex; /* Flexbox layout */
+  flex-direction: column; /* Stack the children vertically */
+  align-items: center; /* Centers content horizontally */
+  justify-content: flex-start; /* Aligns content at the start of the container */
+  text-align: center; /* Ensures text inside is centered */
+  background: rgba(12, 18, 24, 0.6);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  padding: 100px 0px 10px 0px;
+  max-width: 100%; /* Prevents overflow */
+}
+
+#news-heading {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%; /* Ensures the heading takes up the full width */
+}
+
+#news-content {
+  padding: 20px 20px 0px 20px;
+  display: block; /* Makes it a block element */
+  text-align: left; /* Aligns text content to the left */
+  width: 100%; /* Ensures the content takes up the full width */
+}
+
+#news-container-1{
+  display: block;
+  max-width: 500px; /* Ensures responsiveness */
+  color: white;
+}
+
+#news-text-1 {
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adds space between image and text */
+}
+
+#news-1-image {
+  max-width: 100%; /* Makes the image responsive */
+  height: auto; /* Maintains aspect ratio */
+  object-fit: cover; /* Ensures the image fills the area nicely */
 }
