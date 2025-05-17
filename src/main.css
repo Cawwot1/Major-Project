@@ -12126,6 +12126,7 @@ a {
 
 #wg-logo:hover, #wg-logo:focus {
   filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(2%) hue-rotate(324deg) brightness(106%) contrast(101%);
+  pointer-events: none;
 }
 
 #wg-games-wrapper-main {
@@ -12281,13 +12282,19 @@ body {
   background-color: rgb(12, 18, 24);
 }
 
+@keyframes smooth-parallax {
+  to {
+    background-position: center 500px;
+  }
+}
 #section-search-player-background {
+  animation: smooth-parallax linear;
+  animation-timeline: scroll();
   background-image: linear-gradient(to bottom, transparent 0%, transparent 50%, rgb(12, 18, 24)), url("../assets/WOTB Background Tiger.jpg");
-  background-position: center;
+  background-position: center 0px;
   background-repeat: no-repeat;
-  background-size: cover; /* Ensures the image covers the entire background */
+  background-size: cover;
   width: 100%;
-  height: auto;
   padding: 80px 0px 120px 0px;
 }
 
@@ -12425,7 +12432,8 @@ body {
 }
 
 #news-section {
-  margin: 0px 210px 0px 210px;
+  padding: 8vw 0px 0px 0px;
+  margin: 0px 4vw 0px 4vw;
 }
 
 #news-container {
@@ -12438,8 +12446,9 @@ body {
   border-radius: 10px;
   -webkit-backdrop-filter: blur(5px);
           backdrop-filter: blur(5px);
-  padding: 100px 0px 10px 0px;
+  padding: 8vw 0px 8vw 0px;
   max-width: 100%; /* Prevents overflow */
+  height: auto;
 }
 
 #news-heading {
@@ -12449,29 +12458,82 @@ body {
   width: 100%; /* Ensures the heading takes up the full width */
 }
 
+#news-heading-text {
+  color: White;
+  font-size: 3vw;
+  margin: 0;
+  white-space: nowrap;
+  padding: 0px 10px 0px 0px;
+}
+
 #news-content {
-  padding: 20px 20px 0px 20px;
-  display: block; /* Makes it a block element */
-  text-align: left; /* Aligns text content to the left */
-  width: 100%; /* Ensures the content takes up the full width */
+  padding: 0px 1vw;
+  text-align: left;
+  width: 100%;
 }
 
-#news-container-1 {
-  display: block;
-  max-width: 500px; /* Ensures responsiveness */
-  color: white;
-}
-
-#news-text-1 {
-  color: white;
+.news-row-container {
   display: flex;
-  align-items: center;
-  gap: 10px; /* Adds space between image and text */
+  justify-content: space-between; /* Pushes first item to the left, last to the right */
+  align-items: center; /* Ensures content stays vertically aligned */
+  width: 100%;
+  gap: 20px; /* Maintains equal spacing */
+  color: white;
+  padding: 0px 0px 2vw;
 }
 
-#news-1-image {
-  max-width: 100%; /* Makes the image responsive */
+.news-objects {
+  display: flex;
+  flex-direction: column; /* Ensures image and text stay together */
+  align-items: center; /* Centers content inside each box */
+  flex: 1; /* Allows both containers to grow equally */
+  max-width: 50%; /* Ensures they don't take up more than half of the container */
+  height: auto;
+  border-radius: 0.5vw;
+}
+
+.news-object-background {
+  background: rgb(32, 39, 47);
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+}
+
+.news-text {
+  color: rgb(206, 214, 213);
+  font-size: 1.6vw;
+  font-family: "roboto condensed";
+  margin: 0;
+  white-space: nowrap;
+  padding: 0vw 0px 0px 1.2vw;
+}
+
+.news-button-container {
+  padding: 0.6vw 0px 1.2vw 1.2vw;
+}
+
+#news-button {
+  color: rgb(206, 214, 213);
+  font-size: 1vw;
+  font-family: "roboto condensed";
+  margin: 0;
+  white-space: nowrap;
+  padding: 0.5vw 0.85vw;
+  border: 0.13vw solid rgb(49, 125, 167);
+}
+
+#news-button:hover {
+  background: rgb(49, 125, 167);
+  scale: 103%;
+  transition: scale 0.1s linear;
+}
+
+.news-image {
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, rgb(12, 18, 24) 20%);
+          mask-image: linear-gradient(to top, transparent 0%, rgb(12, 18, 24) 20%);
+  border-radius: inherit;
+  width: 100%; /* Makes the image responsive */
   height: auto; /* Maintains aspect ratio */
   -o-object-fit: cover;
-     object-fit: cover; /* Ensures the image fills the area nicely */
+     object-fit: cover; /* Ensures the image fills its space nicely */
 }
