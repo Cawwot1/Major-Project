@@ -12017,7 +12017,9 @@ a {
 
 .tracker-nav-bar-buttons {
   text-decoration: none;
+  color: grey;
   display: inline-block;
+  position: relative;
   align-items: center; /* Vertically center the content */
   justify-content: center; /* Horizontally center the content */
   padding: calc(var(--tracker-nav-bar-vertical-height) - 5px) 0px;
@@ -12026,20 +12028,7 @@ a {
   margin: 0px 0px 0px 20px; /* Adds space between buttons */
 }
 
-.tracker-nav-bar-elements {
-  display: flex;
-  align-items: center; /* Vertically centers items inside */
-  justify-content: flex-start; /* Aligns items to the left */
-}
-
-.tracker-nav-bar-elements a {
-  text-decoration: none;
-  color: grey;
-  position: relative;
-  display: inline-block;
-}
-
-.tracker-nav-bar-elements a::after {
+.tracker-nav-bar-buttons::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -12050,18 +12039,26 @@ a {
   transition: width 0.2s linear, left 0.2s linear;
 }
 
-.tracker-nav-bar-elements a:hover::after {
+.tracker-nav-bar-buttons:hover::after {
   width: 100%;
   left: 0;
 }
 
-.tracker-nav-bar-elements a:hover {
+.tracker-nav-bar-buttons:hover {
   color: lightgrey;
   transition: color 0.2s linear;
 }
 
-.tracker-nav-bar-elements a.active {
+.tracker-nav-bar-buttons.active {
   color: white;
+}
+
+.tracker-nav-bar-elements {
+  display: flex;
+  width: 100vw;
+  align-items: center; /* Vertically centers items inside */
+  justify-content: flex-start; /* Aligns items to the left */
+  margin-right: 10vw;
 }
 
 #wotb_logo {
@@ -12075,6 +12072,24 @@ a {
   font-size: 30px;
   font-weight: bold;
   color: lightgrey;
+}
+
+.push-right {
+  margin-left: auto;
+}
+
+#login-button {
+  background: rgb(39, 39, 39);
+  border-color: white;
+  border-radius: 25px;
+  padding: 8px 20px;
+  transition: scale 0.1s linear;
+}
+
+#login-button:hover {
+  background: rgb(145, 145, 145);
+  scale: 103%;
+  transition: scale 0.1s linear;
 }
 
 .wargaming-nav-bar {
@@ -12558,4 +12573,45 @@ body {
 
 #news-image-100 {
   height: 30vw;
+}
+
+#rankings-section {
+  padding: 8vw 0px 0px 0px;
+  margin: 0px 4vw 0px 4vw;
+}
+
+#rankings-heading {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%; /* Ensures the heading takes up the full width */
+}
+
+#rankings-heading-text {
+  color: White;
+  font-size: 3vw;
+  margin: 0;
+  white-space: nowrap;
+  padding: 0px 10px 0px 0px;
+}
+
+#rankings-container {
+  display: flex; /* Flexbox layout */
+  flex-direction: column; /* Stack the children vertically */
+  align-items: center; /* Centers content horizontally */
+  justify-content: flex-start; /* Aligns content at the start of the container */
+  text-align: center; /* Ensures text inside is centered */
+  background: rgba(12, 18, 24, 0.6);
+  border-radius: 10px;
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  padding: 8vw 0px 8vw 0px;
+  max-width: 100%; /* Prevents overflow */
+  height: auto;
+}
+
+#rankings-content {
+  padding: 0px 1vw;
+  text-align: left;
+  width: 100%;
 }
