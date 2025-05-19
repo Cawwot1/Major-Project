@@ -493,7 +493,7 @@ body {
 }
 
 #discord-text {
-  color: White;
+color: White;                                                                
   font-size: 1.5em;
   margin: 0;
   white-space: nowrap;
@@ -555,9 +555,17 @@ body {
   flex-direction: column; /* Ensures image and text stay together */
   align-items: center; /* Centers content inside each box */
   flex: 1; /* Allows both containers to grow equally */
+  border-radius: 0.5vw;
+}
+
+#news-object-50{
   max-width: 50%; /* Ensures they don't take up more than half of the container */
   height: auto;
-  border-radius: 0.5vw;
+}
+
+#news-object-100{
+  max-width: 100%; /* Ensures they don't take up more than half of the container */
+  height: auto;
 }
 
 .news-object-background{
@@ -596,10 +604,22 @@ body {
   transition: scale 0.1s linear;
 }
 
-.news-image {
+.news-image{
   mask-image: linear-gradient(to top, transparent 0%, rgb(12, 18, 24) 20%);
   border-radius: inherit;
   width: 100%; /* Makes the image responsive */
-  height: auto; /* Maintains aspect ratio */
+  height: 100%; /* Maintains aspect ratio */
   object-fit: cover; /* Ensures the image fills its space nicely */
+}
+
+.news-image{
+  mask-image: linear-gradient(to top, transparent 0%, rgb(12, 18, 24) 20%);
+  border-radius: inherit;
+  width: 100%; /* Makes the image responsive */
+  height: 100%; /* Maintains aspect ratio */
+  object-fit: cover; /* Ensures the image fills its space nicely */
+}
+
+#news-image-100{
+ height: 30vw;
 }
