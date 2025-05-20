@@ -12084,6 +12084,7 @@ a {
   border-radius: 25px;
   padding: 8px 20px;
   transition: scale 0.1s linear;
+  margin-left: 0.7vw;
 }
 
 #login-button:hover {
