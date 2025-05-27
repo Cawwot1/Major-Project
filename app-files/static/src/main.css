@@ -12640,6 +12640,10 @@ body {
   padding: 3vh 3vw 3vh 3vw;
 }
 
+#login-form {
+  width: 100%;
+}
+
 .title {
   font-size: 2em;
   padding-bottom: 4vh;

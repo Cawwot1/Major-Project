@@ -17,7 +17,7 @@
 
     <!--Video Background-->
     <video autoplay muted loop playsinline id="login-background-video">
-      <source src="https://github.com/Cawwot1/Major-Project/releases/download/Background-footage/login-background-footage.mp4" type="video/mp4">
+      <source src="https://www.dropbox.com/scl/fi/fpk0ri5a17yfiqh187sxn/login-background-footage.mp4?dl=1" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     
@@ -71,14 +71,16 @@
             <div class="container" id="login-container"> <!--login container-->
               <div id="login-elements">
                 <p class="title login-text">Login</p>
-                <div class="mb-3">
+                <form method="POST" action="/login" id="login-form">
+                  <div class="mb-3">
                     <label for="login-username-input" class="form-label login-text">Username</label>
                     <input type="email" class="form-control" id="login-username-input" placeholder="name@example.com">
-                </div>
-                <div class="mb-3">
-                    <label for="login-password-input" class="form-label login-text">Password</label>
-                    <input type="password" class="form-control" id="login-password-input" placeholder="Password@123">
-                </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="login-password-input" class="form-label login-text">Password</label>
+                      <input type="password" class="form-control" id="login-password-input" placeholder="Password@123">
+                  </div>
+                </form>
                 <div class="text-container-right" id="forgot-password-container"> <!--forgot password flex container-->
                   <a href="" class="login-text" id="forgot-password-text">
                     <p>Forgot Password?</p>
