@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from authentication import *
 
 app = Flask(__name__)
 
@@ -6,9 +7,27 @@ app = Flask(__name__)
 def index():   
     return render_template('index.html')
 
-@app.route('/login')
-def login():   
+@app.route('/login', methods=["GET","POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"] 
+        password = request.form["password"]
+
+        if login(username, password):
+            return render_template('stats.html')
     return render_template('login.html')
+
+@app.route('/auth/signup', methods=["POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"] 
+        password = request.form["password"] 
+        email = request.form["email"]
+        
+        if create_account(email, username, password):
+            return render_template('stats.html')
+    return render_template('login.html')
+
 
 @app.route('/stats')
 def stats():   
