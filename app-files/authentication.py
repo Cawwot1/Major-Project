@@ -20,17 +20,11 @@ def create_account(email, username, password):
     existing_user = users.find_one({"email": email})
     existing_name = users.find_one({"username": username})
 
-    print(1)
-
     if existing_user:
-        print(1.1)
         abort(400, description="existing account (email)")
     elif existing_name:
-        print(1.2)
         abort(400, description="existing account (name)")
     else:
-
-        print(2)
 
         password = hash_password(password)
 
