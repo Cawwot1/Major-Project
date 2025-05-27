@@ -13,17 +13,17 @@ def login():
         username = request.form["username"] 
         password = request.form["password"]
 
-        if login(username, password):
+        if auth_login(username, password):
             return render_template('stats.html')
     return render_template('login.html')
 
 @app.route('/auth/signup', methods=["POST"])
-def login():
+def signup():
     if request.method == "POST":
         username = request.form["username"] 
         password = request.form["password"] 
         email = request.form["email"]
-        
+
         if create_account(email, username, password):
             return render_template('stats.html')
     return render_template('login.html')

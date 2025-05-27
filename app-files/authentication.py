@@ -20,11 +20,17 @@ def create_account(email, username, password):
     existing_user = users.find_one({"email": email})
     existing_name = users.find_one({"username": username})
 
+    print(1)
+
     if existing_user:
+        print(1.1)
         abort(400, description="existing account (email)")
     elif existing_name:
+        print(1.2)
         abort(400, description="existing account (name)")
     else:
+
+        print(2)
 
         password = hash_password(password)
 
@@ -35,7 +41,7 @@ def create_account(email, username, password):
         })
         return True
     
-def login(username, password):
+def auth_login(username, password):
     existing_user = users.find_one({"username": username})
     if existing_user:
         stored_hash = existing_user.get("password")
@@ -49,7 +55,7 @@ def login(username, password):
 def hash_password(password):
 
     # Generate a salt and hash the password
-    hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
     # Store the hashed password (in your database, for example)
     return hashed_password
@@ -65,9 +71,6 @@ def password_verify(entered_password, hashed_password):
 
 def input_validation(password, username, email):
 
-    if email in users:  # Check if the email is already in use
-        abort(400, description="Email already exists")
-
     if not EMAIL_PATTERN.match(email):  # Validate email format
         abort(400, description="Invalid email format (valid example: username@example.com)")
     
@@ -82,3 +85,23 @@ def input_validation(password, username, email):
 #Planning
 #1 password input
 #2 input validation
+
+#TEST
+
+
+users = db["users"]
+
+# Print every document in the collection
+for doc in users.find():
+    print(doc)
+
+
+"""
+username = "testuser"
+email = "test@example.com"
+password = "Password123"
+
+create_account(email, username, password)
+"""
+
+

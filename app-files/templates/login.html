@@ -74,21 +74,21 @@
                 <form method="POST" action="/login" id="login-form">
                   <div class="mb-3">
                     <label for="login-username-input" class="form-label login-text">Username</label>
-                    <input type="email" class="form-control" id="login-username-input" placeholder="name@example.com">
+                    <input type="text" name="username" class="form-control" id="login-username-input" placeholder="name@example.com">
                   </div>
                   <div class="mb-3">
                       <label for="login-password-input" class="form-label login-text">Password</label>
-                      <input type="password" class="form-control" id="login-password-input" placeholder="Password@123">
+                      <input type="password" name="password" class="form-control" id="login-password-input" placeholder="Password@123">
+                  </div>
+                  <div class="text-container-right" id="forgot-password-container"> <!--forgot password flex container-->
+                    <a href="" class="login-text" id="forgot-password-text">
+                      <p>Forgot Password?</p>
+                    </a>
+                  </div>
+                  <div id="login-button-container">
+                    <button type="submit" class="btn btn-primary" id="login-section-login-button">Login</button>
                   </div>
                 </form>
-                <div class="text-container-right" id="forgot-password-container"> <!--forgot password flex container-->
-                  <a href="" class="login-text" id="forgot-password-text">
-                    <p>Forgot Password?</p>
-                  </a>
-                </div>
-                <a href="../templates/login.html" id="login-button-container">
-                  <button type="button" class="btn btn-primary" id="login-section-login-button">Login</button>
-                </a>
                 <p class="login-text" id="sign-up-text-2">Or Login Using</p>
                 <div id="logos"> 
                     <a class="login-logo" href="">
