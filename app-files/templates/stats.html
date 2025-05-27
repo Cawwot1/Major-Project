@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Metadata Information for browser -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Scaling of Webpage -->
+
+    <title>World of Tanks Blitz Player Tracker - Home page</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/src/main.css">
+
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Header section inside the body -->
+    <div class="header">
+      <div class="wargaming-nav-bar">
+        <!-- Navigation content here -->
+        <a href="https://wargaming.net/en/games/wotb">
+          <div id="wg-logo-wrapper-main">
+            <div id="wg-logo-icon-holder">
+                <!--Pre-Hover Logo-->
+                <object id="wg-logo" type="image/svg+xml" data="../assets/wg_logo.svg">
+                  Wargaming Logo
+                </object>
+            </div>
+          </div>
+        </a>
+        <div id="wg-games-wrapper-main">
+          <div id="wg-games-holder">
+            <p id="wargaming-nav-bar-games-text">
+              Games <span class="dropdown-arrow"></span>
+            </p>
+          </div>
+        </div>
+        <div id="wg-services-wrapper-main">
+          <div id="wg-services-holder">
+            <p id="wargaming-nav-bar-services-text">
+              Services <span class="dropdown-arrow"></span>
+            </p>
+          </div>
+        </div>
+        <div id="wg-premium-wrapper-main">
+          <div id="wg-premium-holder">
+            <p id="wargaming-nav-bar-premium-text">
+              Premium Shop
+            </p>
+          </div>
+        </div>
+        <div id="wg-support-wrapper-main">
+          <div id="wg-support-holder">
+            <p id="wargaming-nav-bar-support-text">
+              Player Support
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tracker-nav-bar">
+        <a href="https://wargaming.net/en/games/wotb" id="wotb_logo">
+          <img src="../assets/WOTB_logo.png" alt="World of Tanks Blitz Logo">
+        </a>
+        <div class="tracker-nav-bar-elements">
+            <a class="tracker-nav-bar-buttons" href="../html/index.html">Home</a>
+            <a class="tracker-nav-bar-buttons" href="API Page Link">API</a>
+            <div class="push-right">
+              <a href="../html/login.html"><button type="button" class="btn btn-primary" id="login-button">Login</button></a>
+              <a href=""><button type="button" class="btn btn-primary" id="login-button">Sign Up</button></a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content starts here -->
+    <div class="main-content" id="player-stats-main-content">
+        <div id="player-stats-head-background">
+            <section class="section-flex" id="player-stats-head">
+                <div class="title-container">
+                    <p id="player-stats-heading">Stats for Username</p>
+                </div>
+                <div id="stats-head-button-container">
+                   <a class="player-stats-text1"><p>STAR</p></a>
+                   <a class="stats-head-button2"><p>Example 1</p></a>
+                   <a class="stats-head-button2"><p>Example 2</p></a>
+                </div>
+                <div id="stats-head-statistics-container">
+                    <div id="general-stats">
+                        <p class="player-stats-text1">statistic1 </p>
+                        <p class="player-stats-text1">statistic2 </p>
+                        <p class="player-stats-text1">statistic3 </p>
+                        <p class="player-stats-text1">statistic4 </p>
+                    </div>
+                    <div id="country-tank-rank-stats">
+                        <div id="country-tank-rank-stats-sub-container">
+                            <p class="player-stats-text1">statistic1 </p>
+                            <p class="player-stats-text1">statistic2 </p>
+                            <p class="player-stats-text1">statistic3 </p>
+                            <p class="player-stats-text1">statistic4 </p>
+                        </div>
+                        <div id="country-tank-rank-stats-sub-container">
+                            <p class="player-stats-text1">statistic1 </p>
+                            <p class="player-stats-text1">statistic2 </p>
+                            <p class="player-stats-text1">statistic3 </p>
+                            <p class="player-stats-text1">statistic4 </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+  </body>
+</html>
