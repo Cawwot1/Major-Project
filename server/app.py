@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from authentication import *
+from .api.authentication import auth_login, create_account
 
 app = Flask(__name__)
 
