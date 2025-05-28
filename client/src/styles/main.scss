@@ -178,30 +178,32 @@ a {
   padding-right: 8px;
   display: flex;
   align-items: center;
-  position: relative; /* Make sure the wrapper is relative for absolute positioning of logos */
+  position: relative;
 }
 
 #wg-logo-icon-holder {
+  z-index: 50;
   transform: translateY(-1px);
   width: 19px;
   height: 19px;
   line-height: 19px;
   vertical-align: middle;
-  position: relative; /* Ensure icons are stacked correctly */
+  position: relative;
   float: left;
 }
 
+/* Assuming #wg-logo is the SVG or container around your SVG */
 #wg-logo {
-  display: inline-block;
+  display: block; /* Prevent inline gaps/flicker */
   height: 20px;
-  width: auto;
-  background-size: cover;
-  //ADD RETURN TRANSITION & FILTER
+  width: 20px;
+  transition: filter 0.3s ease;
+  filter: brightness(0.8);
 }
 
-#wg-logo:hover, #wg-logo:focus{
-  filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(2%) hue-rotate(324deg) brightness(106%) contrast(101%);
-  pointer-events: none;
+/* On hover, brighten it up */
+#wg-logo-wrapper-main:hover #wg-logo{
+  filter: brightness(1.1);
 }
 
 //Games dropdown
