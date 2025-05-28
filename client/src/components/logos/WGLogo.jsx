@@ -1,6 +1,8 @@
+import '../../styles/main.css'
+
 export default function WGLogo() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 20" width="auto" height="auto" id="wg-logo" xlink:href="https://wargaming.net/en/games/wotb">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 20" width="auto" height="auto" id="wg-logo" xlink:href="https://www.example.org">
             <g>
                 <path 
                 fill="#869094" 

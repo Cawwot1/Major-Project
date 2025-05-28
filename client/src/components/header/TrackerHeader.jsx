@@ -6,7 +6,7 @@ export default function TrackerNavBar() {
     <div className="tracker-nav-bar">
       <a href="https://wargaming.net/en/games/wotb" id="wotb_logo">
         <img
-          src="../../../public/WOTB_logo.png"
+          src="/WOTB_logo.png"
           alt="World of Tanks Blitz Logo"
         />
       </a>
