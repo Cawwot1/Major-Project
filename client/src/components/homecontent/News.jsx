@@ -1,4 +1,4 @@
-import '../../styles/main.css'
+import '../../styles/main.css';
 import React from 'react';
 
 export default function NewsSection() {
@@ -7,37 +7,55 @@ export default function NewsSection() {
       <div id="news-heading">
         <p id="news-heading-text">Current News</p>
       </div>
+
       <div className="container-fluid" id="news-container">
         <div id="news-content">
-          <NewsRow>
-            <NewsCard title="News Item 1" imageSrc="/Wish-Upon-A-Star.jpg" />
-            <NewsCard title="News Item 2" imageSrc="/Wish-Upon-A-Star.jpg" />
-          </NewsRow>
-          <NewsRow>
-            {/* Pass the id prop here for the image */}
-            <NewsCard title="News Item 3" imageSrc="/Wish-Upon-A-Star.jpg" id="news-image-100" />
-          </NewsRow>
-        </div>
-      </div>
-    </div>
-  );
-}
+          {/* First Row */}
+          <div className="news-row-container">
+            <div className="news-objects">
+              <div className="news-object-background">
+                <img src="/Wish-Upon-A-Star.jpg" className="news-image" alt="News Item 1" />
+                <div className="news-text">News Item 1</div>
+                <div className="news-button-container">
+                  <button type="button" className="btn btn-outline-primary" id="news-button">
+                    Go to News
+                  </button>
+                </div>
+              </div>
+            </div>
 
-export function NewsRow({ children }) {
-  return <div className="news-row-container">{children}</div>;
-}
+            <div className="news-objects">
+              <div className="news-object-background">
+                <img src="/Wish-Upon-A-Star.jpg" className="news-image" alt="News Item 2" />
+                <div className="news-text">News Item 2</div>
+                <div className="news-button-container">
+                  <button type="button" className="btn btn-outline-primary" id="news-button">
+                    Go to News
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-export function NewsCard({ title, imageSrc, id }) {
-  return (
-    <div className="news-objects">
-      <div className="news-object-background">
-        {/* Apply the id to the img */}
-        <img src={imageSrc} className="news-image" alt={title} id={id} />
-        <div className="news-text">{title}</div>
-        <div className="news-button-container">
-          <button type="button" className="btn btn-outline-primary" id="news-button">
-            Go to News
-          </button>
+          {/* Second Row */}
+          <div className="news-row-container">
+            <div className="news-objects">
+              <div className="news-object-background">
+                <img
+                  src="/Wish-Upon-A-Star.jpg"
+                  className="news-image"
+                  alt="News Item 3"
+                  id="news-image-100"
+                />
+                <div className="news-text">News Item 3</div>
+                <div className="news-button-container">
+                  <button type="button" className="btn btn-outline-primary" id="news-button">
+                    Go to News
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
