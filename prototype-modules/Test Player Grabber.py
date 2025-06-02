@@ -1,31 +1,63 @@
 import requests
 
-def get_player_data(player_name, api_key='8a7d423689495684d0356c33903fd487'):
-    regions = ['asia', 'eu', 'na', 'ru']
-    base_url = 'https://api.worldofwarships.{region}/wows/account/list/'
-    
-    for region in regions:
-        url = base_url.format(region=region)
-        params = {
-            'application_id': api_key,
-            'search': player_name,
-            'type': 'exact'
-        }
-        
-        try:
-            response = requests.get(url, params=params)
-            response.raise_for_status()
-            data = response.json()
-            
-            if data.get('status') == 'ok' and data.get('data'):
-                return {"region": region, "data": data['data']}
-        except requests.exceptions.RequestException as e:
-            print(f"Error in {region}: {e}")
-    
-    return {'error': 'Player not found in any region'}
+"""
+PLAYER API LINKS
+"""
+#https://api.wotblitz.eu/wotb/account/list/?application_id=8a7d423689495684d0356c33903fd487 Players
+#https://api.wotblitz.eu/wotb/account/info/?application_id=8a7d423689495684d0356c33903fd487 Players personal data
+#https://api.wotblitz.eu/wotb/account/info/?application_id=8a7d423689495684d0356c33903fd487 Players achivements
+#https://api.wotblitz.eu/wotb/account/tankstats/?application_id=8a7d423689495684d0356c33903fd487 Last battle
 
-# Example usage
+API_KEY = "8a7d423689495684d0356c33903fd487"
+BASE_URL = "https://api.wotblitz."
+REALMS = ["asia", "eu", "com"]  # 'com' = NA
+
+def player_retrieve(name, exact):
+    response_list = []
+
+    params = {
+        'application_id': API_KEY,
+        'search': str(name)
+    }
+
+    if exact:
+        params["type"] = "exact"
+
+    for server in REALMS:
+        response = requests.get(BASE_URL + server + "/wotb/account/list/", params=params)
+        response_list.append(response)
+
+    return response_list
+
+
 if __name__ == "__main__":
-    player_name = input("Enter player name: ")
-    result = get_player_data(player_name)
-    print(result)
+    response_dict = {
+        "asia_response": "",
+        "eu_response": "",
+        "na_response": ""
+    }
+
+    realm_keys = list(response_dict.keys())
+    response_list = player_retrieve("yang_me", True)
+
+    for i, response in enumerate(response_list):
+        realm = realm_keys[i].split("_")[0]  # extract realm from key
+
+        if response.status_code == 200:
+            data = response.json().get('data', [])
+            if data:
+                player = data[0]
+                response_dict[realm_keys[i]] = {
+                    "nickname": player.get("nickname"),
+                    "account_id": player.get("account_id")
+                }
+                print(f" Player '{player['nickname']}' found on {realm.upper()} server. ID: {player['account_id']}")
+            else:
+                response_dict[realm_keys[i]] = "No player found"
+                print(f" Player not found on {realm.upper()} server.")
+        else:
+            response_dict[realm_keys[i]] = "Request failed"
+            print(f"⚠️ Request failed on {realm.upper()} server.")
+
+    print("\nFinal Response Dictionary:")
+    print(response_dict)
