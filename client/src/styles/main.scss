@@ -688,23 +688,40 @@ color: White;
 }
 
 #login-container{
+  position: relative;
   background-color: rgb(27, 42, 63);
   opacity: 90%;
   width: 450px; //~30% vw -> ADD BREAKPOINTS
-  height: auto;
+  height: 85vh;
   border-radius: 2%;
+  padding-left: 0;
 }
 
 .mb-3{
   width: 100%;
 }
 
-#login-elements{
+.auth-elements{
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding: 3vh 3vw 3vh 3vw;
+  position: absolute;
+  width: 100%;
+  
+  opacity: 1;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.auth-elements.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.auth-elements.fade-in {
+  opacity: 1;
+  visibility: visible;
 }
 
 #login-form{
@@ -746,14 +763,12 @@ color: White;
   color: white;
 }
 
-
-
 #login-button-container{
   width: 100%;
   margin-bottom: 3vh;
 }
 
-#login-section-login-button{
+.auth-login-button{
   background: rgb(39, 39, 39);
   border-color: white;
   border-radius: 25px;
@@ -762,10 +777,15 @@ color: White;
   transition: all 0.2s linear;
 }
 
-#login-section-login-button:hover{
+.auth-login-button:hover{
   border-color: grey;
   color: grey;
+  background: rgb(39, 39, 39);
   transition: all 0.2s linear;
+}
+
+#signup-button{
+  margin-top: 3vh;
 }
 
 #sign-up-text-1{
@@ -809,15 +829,19 @@ color: White;
   z-index: -1;
 }
 
-#sign-up-link{
+.auth-link{
   text-decoration: underline;
   color: lightgrey;
   transition: all 0.2s linear
 }
 
-#sign-up-link:hover{
+.auth-link:hover{
   color: white;
-} 
+}
+
+#go-back-link{
+  margin-top: 2.3vh;
+}
 
 /* ---------------------------------------------------------------------- */
 // USER STATS

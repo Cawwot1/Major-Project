@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/main.css'
 
 export default function PlayerSearch() {
@@ -7,12 +8,18 @@ export default function PlayerSearch() {
   // setUsername: function to update username
   // useState(''): sets initial value to empty string
   const [result, setResult] = useState(null);
+  const navigate = useNavigate(); // React Router hook
     
   const handleSearch = async () => { //=> shorter method of defining functions
     try {
       const response = await fetch(`http://localhost:5050/api/player-search?nickname=${encodeURIComponent(username)}`); //encodes username
       const data = await response.json(); // parses the response as JSON
-      setResult(data);
+      setResult(data); //Stores data for local comp. use
+
+      // Print result to console for debugging
+      console.log('SearchPage result:', data);
+
+      navigate('/stats', { state: { result: data } }); //Passing data object
     }
     catch (error) {
       console.error('Error fetching player data:', error); //Notifies error
