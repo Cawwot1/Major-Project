@@ -8,7 +8,7 @@ REALMS = ["asia", "eu", "com"]
 ----- Player ID Retriver -----
 """
 
-def player_search(nickname):
+def player_searcher(nickname):
 
     data = search_request(nickname, type='exact')
     if data == {}:
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     name = "yang_me"
 
-    search_data = player_search(name)  
+    search_data = player_searcher(name)  
 
     print(search_data)
 
