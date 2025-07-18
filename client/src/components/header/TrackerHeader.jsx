@@ -19,11 +19,6 @@ export default function TrackerNavBar() {
               Login
             </button>
           </a>
-          <a href="/signup">
-            <button type="button" className="btn btn-primary" id="login-button">
-              Sign Up
-            </button>
-          </a>
         </div>
       </div>
     </div>

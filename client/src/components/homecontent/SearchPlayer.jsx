@@ -12,7 +12,7 @@ export default function PlayerSearch() {
     
   const handleSearch = async () => { //=> shorter method of defining functions
     try {
-      const response = await fetch(`http://localhost:5050/api/player-search?nickname=${encodeURIComponent(username)}`); //encodes username
+      const response = await fetch(`http://localhost:5050/player-search?nickname=${encodeURIComponent(username)}`); //encodes username
       const data = await response.json(); // parses the response as JSON
       setResult(data); //Stores data for local comp. use
 

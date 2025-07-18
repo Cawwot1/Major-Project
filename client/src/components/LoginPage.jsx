@@ -1,13 +1,63 @@
 import '../styles/main.css'
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
     
+  const navigate = useNavigate();
   const [isSignup, setIsSignup] = useState(false);
 
-  const handleSignUpClick = (e) => {
+  const handleLoginSignupChange = (e) => {
     e.preventDefault();
     setIsSignup(prev => !prev); // flips isSignup between true and false
+  };
+
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+const handleSignup = async (e) => {
+  e.preventDefault();
+
+  console.log("Signup Triggered");
+
+  const res = await fetch("http://localhost:5050/signup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, username, password }),
+  });
+
+  console.log("Response Recieved");
+
+  if (res.ok) {
+    const data = await res.json();
+    if (data.success) {
+      navigate("/stats");
+    }
+  } else {
+    const err = await res.json();
+    alert("Signup failed: " + err.error);
+  }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+  
+    const res = await fetch("http://localhost:5050/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, username, password }),
+    });
+  
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
+        navigate("/stats");
+      }
+    } else {
+      const err = await res.json();
+      alert("Signup failed: " + err.error);
+    }
   };
 
   return (
@@ -30,17 +80,20 @@ export default function LoginPage() {
 
               <div className={`auth-elements ${isSignup ? 'fade-out' : 'fade-in'}`}> {/* If isSignup = True, trigger fade-out in css */}
                 <p className="title login-text">Login</p>
-                <form method="POST" action="/login" id="login-form">
+                <form onSubmit={handleLogin} class="login-form">
                   <div className="mb-3">
-                    <label htmlFor="login-username-input" className="form-label login-text">
-                      Username
+                    <label htmlFor="login-email-input" className="form-label login-text">
+                      Email
                     </label>
                     <input
-                      type="text"
-                      name="username"
+                      type="email"
+                      name="email"
                       className="form-control"
-                      id="login-username-input"
+                      id="login-email-input"
                       placeholder="name@example.com"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      
                     />
                   </div>
                   <div className="mb-3">
@@ -53,6 +106,8 @@ export default function LoginPage() {
                       className="form-control"
                       id="login-password-input"
                       placeholder="Password@123"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
                     />
                   </div>
                   <div className="text-container-right" id="forgot-password-container">
@@ -80,7 +135,7 @@ export default function LoginPage() {
                         </g>
                     </svg>
                   </a>
-  
+                
                   <a className="login-logo" href="">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64px" height="64px">
                         <linearGradient id="HOaxCdew_So_FZGl4pPQ6a" x1="32" x2="32" y1="9" y2="55" gradientUnits="userSpaceOnUse">
@@ -95,7 +150,7 @@ export default function LoginPage() {
                         <path fill="url(#HOaxCdew_So_FZGl4pPQ6b)" d="M26.978,22l14.108,20h-3.063L23.914,22H26.978z M51,15v34c0,1.1-0.9,2-2,2H15	c-1.1,0-2-0.9-2-2V15c0-1.1,0.9-2,2-2h34C50.1,13,51,13.9,51,15z M44.914,44L34.789,29.613L43,20h-2.5l-6.841,8.009L28.022,20	h-7.937l9.222,13.103L20,44h2.5l7.937-9.292L36.978,44H44.914z"/>
                     </svg>
                   </a>
-  
+
                   <a className="login-logo" href="">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px" aria-label="Google logo" role="img">
                         <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -107,7 +162,7 @@ export default function LoginPage() {
                 </div>
   
                 <p className="login-text" id="sign-up-text-3">Don't have an account yet?</p>
-                <a className="auth-link" onClick={handleSignUpClick}>
+                <a className="auth-link" onClick={handleLoginSignupChange}>
                   <p>Sign Up</p>
                 </a>
               </div>
@@ -116,41 +171,48 @@ export default function LoginPage() {
 
               <div className={`auth-elements ${isSignup ? 'fade-in' : 'fade-out'}`}> {/* If isSignup = True, trigger fade-out in css */}
                 <p className="title login-text">Signup</p>
-                <form method="POST" action="/login" id="login-form">
+                <form onSubmit={handleSignup} class="login-form">
                   <div className="mb-3">
-                    <label htmlFor="login-email-input" className="form-label login-text">
+                    <label htmlFor="signup-email-input" className="form-label login-text">
                       Email
                     </label>
                     <input
                       type="text"
                       name="email"
                       className="form-control"
-                      id="login-email-input"
+                      id="signup-email-input"
                       placeholder="name@example.com"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="login-password-input" className="form-label login-text">
+                  <label htmlFor="signup-username-input" className="form-label login-text">
+                    Username
+                  </label>
+                  <input
+                    type="text"              
+                    name="username"
+                    className="form-control"
+                    id="signup-username-input"
+                    placeholder="Username123"
+                    value={username}        
+                    onChange={e => setUsername(e.target.value)}
+                  />
+                </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="signup-password-input" className="form-label login-text">
                       Password
                     </label>
                     <input
                       type="password"
                       name="password"
                       className="form-control"
-                      id="login-password-input"
+                      id="signup-password-input"
                       placeholder="Password@123"
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="login-confirm-password-input" className="form-label login-text">
-                      Confirm Password
-                    </label>
-                    <input
-                      type="password"
-                      name="confirm-password"
-                      className="form-control"
-                      id="login-confirm-password-input"
-                      placeholder="Password@123"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
                     />
                   </div>
                   <div id="login-button-container">
@@ -199,7 +261,7 @@ export default function LoginPage() {
                   </a>
                 </div>
   
-                <a className="auth-link" id="go-back-link" onClick={handleSignUpClick}>
+                <a className="auth-link" id="go-back-link" onClick={handleLoginSignupChange}>
                   <p>Go Back</p>
                 </a>
               </div>

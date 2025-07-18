@@ -10,7 +10,7 @@ CORS(app)  # Enable cross-origin requests (React runs on a different port)
 def index():
     return jsonify({"message": "API is running"}), 200
 
-@app.route('/api/player-search', methods=["GET"])
+@app.route('/player-search', methods=["GET"])
 def player_search():
     nickname = request.args.get('nickname')
     if not nickname:
@@ -30,7 +30,7 @@ def player_search():
     else:
         return jsonify(user_data)
 
-@app.route('/api/login', methods=["POST"])
+@app.route('/login', methods=["POST"])
 def login():
     data = request.get_json()
     username = data.get("username")
@@ -40,7 +40,7 @@ def login():
         return jsonify({"success": True})
     return jsonify({"success": False, "error": "Invalid credentials"}), 401
 
-@app.route('/api/signup', methods=["POST"])
+@app.route('/signup', methods=["POST"])
 def signup():
     data = request.get_json()
     username = data.get("username")
@@ -48,10 +48,10 @@ def signup():
     email = data.get("email")
 
     if create_account(email, username, password):
-        return jsonify({"success": True})
+        return jsonify({"success": True, "redirect": "/"})
     return jsonify({"success": False, "error": "Account creation failed"}), 400
 
-@app.route('/api/stats', methods=["GET"])
+@app.route('/stats', methods=["GET"])
 def stats():
     # Return stats data as JSON
     return jsonify({"message": "Stats endpoint - provide logic here"})
