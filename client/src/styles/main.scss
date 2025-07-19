@@ -191,6 +191,12 @@ a {
   margin-left: auto;
 }
 
+#login-right-button-container{
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+}
+
 #login-button{
   background: rgb(39, 39, 39);
   border-color: white;
@@ -1047,4 +1053,24 @@ color: White;
 .stats-table {
   --bs-table-bg: transparent !important;                
   --bs-table-border-color: #dee2e6 !important; 
+}
+
+/* ---------------------------------------------------------------------- */
+// OOP Game
+/* ---------------------------------------------------------------------- */
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #9d9d9d; /* light grey on hover */
 }

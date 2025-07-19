@@ -7,6 +7,7 @@ import '../styles/main.css'
 import TrackerNavBar from './header/TrackerHeader';
 
 export default function HomePage() {
+
   return (
     <div>
       <TrackerNavBar />
