@@ -16,49 +16,61 @@ export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-const handleSignup = async (e) => {
-  e.preventDefault();
-
-  console.log("Signup Triggered");
-
-  const res = await fetch("http://localhost:5050/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, username, password }),
-  });
-
-  console.log("Response Recieved");
-
-  if (res.ok) {
-    const data = await res.json();
-    if (data.success) {
-      navigate("/stats");
+  const handleSignup = async (e) => {
+    e.preventDefault();
+  
+    console.log("Signup Triggered");
+    try {
+      const res = await fetch("http://localhost:5050/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, username, password }),
+      });
+  
+      console.log("Response Received");
+  
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          navigate('/stats', { state: { result: username } });
+        }
+      } else {
+        // Catch Flask JSON error responses
+        const errData = await res.json();
+        const message = errData?.error || errData?.description || "Unknown signup error";
+        alert("Signup failed: " + message);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("Signup failed due to network error or unexpected issue.");
     }
-  } else {
-    const err = await res.json();
-    alert("Signup failed: " + err.error);
-  }
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
   
-    const res = await fetch("http://localhost:5050/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, username, password }),
-    });
+    try {
+      const res = await fetch("http://localhost:5050/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, username, password }),
+      });
   
-    if (res.ok) {
-      const data = await res.json();
-      if (data.success) {
-        navigate("/stats");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          navigate('/stats', { state: { result: username } });
+        }
+      } else {
+        const errData = await res.json();
+        const message = errData?.error || errData?.description || "Unknown login error";
+        alert("Login failed: " + message);
       }
-    } else {
-      const err = await res.json();
-      alert("Signup failed: " + err.error);
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("Login failed due to network error or unexpected issue.");
     }
-  };
+  };  
 
   return (
       <div>
