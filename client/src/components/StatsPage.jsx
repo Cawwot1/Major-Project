@@ -9,6 +9,7 @@ export default function StatsPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const username = location.state?.result;
+  console.log(username)
 
   const [playerData, setPlayerData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,11 +18,15 @@ export default function StatsPage() {
   const [searchUsername, setsearchUsername] = useState(null);
   const [isFavourited, setIsFavourited] = useState(false);
 
+  const csrfToken = localStorage.getItem('csrfToken');
+  console.log(csrfToken)
+
   //SEARCH BUTTON PRESSED
   const handleSearch = async (e) => {
     e.preventDefault();
   
     try {
+      console.log(searchUsername)
       navigate('/stats', { state: { result: searchUsername } });
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -38,13 +43,18 @@ export default function StatsPage() {
   useEffect(() => {
     if (!username) {
       setError("No username provided.");
-      setLoading(false);
+      console.log("No username provided.")
       return;
     }
 
     const fetchPlayerData = async () => {
       try {
-        const response = await fetch(`http://localhost:5050/player-search?nickname=${encodeURIComponent(username)}`);
+        const response = await fetch(`http://localhost:5050/player-search?nickname=${encodeURIComponent(username)}`, {
+          headers: {
+            "csrfToken": csrfToken,
+          },
+          credentials: "include" //DO NOT PUT THIS IN THE HEADER (it will not work)
+        });
         if (!response.ok) {
           throw new Error(`Error fetching player data: ${response.statusText}`);
         }
@@ -78,26 +88,55 @@ export default function StatsPage() {
   }
 
   const renderContent = () => {
+    
+    //No Name was entered (or Login)
+
+    if (!username) {
+      return (
+        <div className="player-stats-background">
+          <div className="player-stats-main-content-nofound main-content">
+            <div className='player-stats-head-background'>
+              <form onSubmit={handleSearch} className="form-inline stats-search player-stats-element">
+                <input 
+                className="form-control mr-sm-2 curved-border" 
+                type="search" 
+                placeholder="Search Player Name" 
+                aria-label="Search"
+                value={searchUsername || ''}
+                onChange={(e) => setsearchUsername(e.target.value)}
+                />
+                <button className="button-format btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+              <p id="stats-no-player" className="horizontal-center medium-text-size player-stats-element">
+                No name was entered, please search for a player
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     //PLAYER NOT FOUND
     if (loading) return <Loading />;
     if (error) return <p>Error: {error}</p>;
+
     if (!playerData || playerData.name === "player not found") {
       return (
         <div className="player-stats-background">
-          <div className="player-stats-main-content main-content">
+          <div className="player-stats-main-content-nofound main-content">
             <div className='player-stats-head-background'>
-              <form onSubmit={handleSearch} class="form-inline stats-search player-stats-element">
+              <form onSubmit={handleSearch} className="form-inline stats-search player-stats-element">
                 <input 
-                class="form-control mr-sm-2 curved-border" 
+                className="form-control mr-sm-2 curved-border" 
                 type="search" 
                 placeholder="Search Player Name" 
                 aria-label="Search"
                 value={searchUsername}
                 onChange={(e) => setsearchUsername(e.target.value)}
                 />
-                <button class="button-format btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button className="button-format btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
-              <p id="stats-no-player" class="horizontal-center medium-text-size player-stats-element">Player "{username}" not found. Please search a name.</p>
+              <p id="stats-no-player" className="horizontal-center medium-text-size player-stats-element">Player "{username}" not found. Please search a name.</p>
             </div>
           </div>
         </div>
@@ -111,11 +150,18 @@ export default function StatsPage() {
     return (
 
       <div className="player-stats-background">
-        <div className="player-stats-main-content main-content">
+        <div className="player-stats-main-content-found main-content">
           <div className='player-stats-head-background'>
-            <form class="form-inline stats-search player-stats-element">
-              <input class="form-control mr-sm-2 curved-border" type="search" placeholder="Search Player Name" aria-label="Search"/>
-              <button class="button-format btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form onSubmit={handleSearch} className="form-inline stats-search player-stats-element">
+              <input 
+              className="form-control mr-sm-2 curved-border" 
+              type="search" 
+              placeholder="Search Player Name" 
+              aria-label="Search"
+              value={searchUsername}
+              onChange={(e) => setsearchUsername(e.target.value)}
+              />
+              <button className="button-format btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             <section className="section-flex player-stats-element" id="player-stats-head">
               <div className="title-container">
@@ -148,7 +194,7 @@ export default function StatsPage() {
                 </a>
               </div>
               <div id="stats-head-statistics-container">
-              <table class="table table-bordered table-dark text-center stats-table">
+              <table className="table table-bordered table-dark text-center stats-table">
                 <thead>
                   <tr>
                     <th scope="col" className='stats-table-column'></th>
@@ -268,9 +314,7 @@ export default function StatsPage() {
                     <td></td>
                   </tr>
                   <tr>
-                    <th scope="row" className='fw-normal'>Damage Recieved</th> {
-                      //Don't Have Damage Recieved yet
-                    }
+                    <th scope="row" className='fw-normal'>Damage Recieved</th>
                     <td>{all.damage_recieved>0?(all.damage_recieved / all.battles).toFixed(0) : '-'}</td> 
                     <td></td>
                   </tr>

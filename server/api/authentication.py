@@ -1,7 +1,10 @@
-from models.database import db
+from data.database import db
+from data.data import *
 from flask import *
 import re
 import bcrypt #Ecnryption
+import secrets
+import base64
 
 # Collections
 users = db["users"]
@@ -21,7 +24,9 @@ def create_account(email, username, password):
 
     if existing_user:
         print("existing account (email)")
-        abort(400, description="existing account (email)")
+        abort(400, description="Email has already been registered")
+    elif users.find_one({"username": username}):
+        abort(400, description="Username has already been taken")
     else:
 
         password = hash_password(password)
@@ -31,14 +36,22 @@ def create_account(email, username, password):
             "username": username,
             "password": password  # HASHED
         })
-        return True
+
+        session_token = generate_session_token()
+        store_session_token(session_token, email)
+
+        return True, generate_csrf_token(), session_token
     
-def auth_login(username, password):
-    existing_user = users.find_one({"username": username})
+def auth_login(email, password):
+    existing_user = users.find_one({"email": email.lower()})
     if existing_user:
         stored_hash = existing_user.get("password")
         if stored_hash and bcrypt.checkpw(password.encode(), stored_hash.encode()):
-            return True
+
+            session_token = generate_session_token()
+            store_session_token(session_token, email)
+            
+            return True, generate_csrf_token(), session_token #Returns generated Tokens
         else:
             abort(400, description="Password Incorrect")
     else:
@@ -79,26 +92,16 @@ def input_validation(password, username, email):
 
     # Create and store the new user in the database
 
-#Planning
-#1 password input
-#2 input validation
+def generate_csrf_token():
+    return base64.urlsafe_b64encode(secrets.token_bytes(32)).decode()
 
-#TEST
-
+def generate_session_token():
+    return base64.urlsafe_b64encode(secrets.token_bytes(32)).decode()
 
 users = db["users"]
 
 # Print every document in the collection
 for doc in users.find():
     print(doc)
-
-
-"""
-username = "testuser"
-email = "test@example.com"
-password = "Password123"
-
-create_account(email, username, password)
-"""
 
 

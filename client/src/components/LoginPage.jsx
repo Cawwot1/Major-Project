@@ -25,13 +25,18 @@ export default function LoginPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username, password }),
+        credentials: 'include',  // This tells the browser to send cookies
       });
   
       console.log("Response Received");
+
+      const csrfToken = res.headers.get("X-Csrf-Token");
+      localStorage.setItem("csrfToken", csrfToken);
   
       if (res.ok) {
         const data = await res.json();
         if (data.success) {
+          console.log("Username Sigup:" + username)
           navigate('/stats', { state: { result: username } });
         }
       } else {
@@ -48,18 +53,25 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const res = await fetch("http://localhost:5050/login", {
+      const res = await fetch("http://localhost:5050/login", { //Request data / headers (to the backend API)
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, username, password }),
+        headers: { 
+          "Content-Type": "application/json"},
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',  // This tells the browser to send cookies
       });
   
       if (res.ok) {
         const data = await res.json();
+
+        const csrfToken = res.headers.get("X-csrf-token");
+        localStorage.setItem("csrfToken", csrfToken);
+
         if (data.success) {
-          navigate('/stats', { state: { result: username } });
+          console.log("Login Username: " + username)
+          navigate('/stats', { state: { result: username } }); //CSRF Token is recived
         }
       } else {
         const errData = await res.json();

@@ -912,11 +912,20 @@ color: White;
   height: 100vh;            /* Full viewport height */
 }
 
-.player-stats-main-content{
+.player-stats-main-content-found{
   padding-top: 0vh;
   margin: 0vh 0vw 0vh 0vw;
   min-height: 100vh;
+  height: auto; /* When height exeeds 100vh, auto activates*/
 }
+
+.player-stats-main-content-nofound{
+  padding-top: 0vh;
+  margin: 0vh 0vw 0vh 0vw;
+  min-height: 100vh;
+  height: 100vh;
+}
+
 
 .player-stats-background{
   background-position: center center;

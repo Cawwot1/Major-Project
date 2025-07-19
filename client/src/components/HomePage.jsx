@@ -2,7 +2,6 @@ import React from 'react';
 import PlayerSearch from './homecontent/SearchPlayer';
 import DiscordLink from './logos/DiscordLogo';
 import NewsSection from './homecontent/News';
-import RankingsSection from './homecontent/Rankings';
 
 import '../styles/main.css'
 import TrackerNavBar from './header/TrackerHeader';
@@ -19,7 +18,6 @@ export default function HomePage() {
           </div>
         </div>
         <NewsSection />
-        <RankingsSection />
       </div>
     </div>
   );
