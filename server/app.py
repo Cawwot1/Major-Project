@@ -4,15 +4,38 @@ from flask_cors import CORS
 from api.authentication import *
 from api.WG_API import *
 from data.data import *
+import google.generativeai as genai
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, expose_headers=["X-Csrf-Token"])  # Enable cross-origin requests (React runs on a different port)
 app.secret_key = 'your-secret-key'
 
+genai.configure(api_key="AIzaSyAhvn5SuzIQVz9QoVGzuYH8FTJ4ofKorUo")
+
 #HOME PAGE
 @app.route('/')
 def index():
     return make_response({"message": "API is running"}), 200
+
+#Chatbot API
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    prompt = escape(data.get("message", ""))
+
+    print(f"CHATBOT PROMPT: {prompt}")
+
+    model = genai.GenerativeModel("gemini-2.0-flash")
+    response = model.generate_content(prompt)
+
+    session['chat-history'].append(prompt)
+    session['chat-history'].append(response)
+
+    return make_response({"response": response.text})
+
+@app.route("/chat-history", methods=["POST"])
+def chat_history():
+    return make_response({"response": session['chat-history']})
 
 @app.route('/player-search', methods=["GET"])
 def player_search():
@@ -59,6 +82,7 @@ def player_search():
 
 @app.route('/login', methods=["POST"])
 def login():
+
     data = request.get_json()
     email = escape(data.get("email"))
     password = escape(data.get("password"))
@@ -68,6 +92,9 @@ def login():
     success, csrf_token, session_token = auth_login(email, password)
 
     if success: #If the login is sucessfull
+
+        session['chat-history'] = []#CHANGE LATER
+
         response = make_response({"success": True})
         response.headers["X-Csrf-Token"] = csrf_token
         response.set_cookie('session_token', session_token, httponly=True, secure=False, samesite='Lax') #Attaches the cookie to the response

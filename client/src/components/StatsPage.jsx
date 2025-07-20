@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.css';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import TrackerNavBar from './header/TrackerHeader';
+import TrackerNavBar from './header/TrackerHeader (stats)';
 import { useNavigate } from "react-router-dom";
 
 export default function StatsPage() {
