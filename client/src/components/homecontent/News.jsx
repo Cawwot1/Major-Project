@@ -15,23 +15,27 @@ export default function NewsSection() {
             <div className="news-objects">
               <div className="news-object-background">
                 <img src="/Wish-Upon-A-Star.jpg" className="news-image" alt="News Item 1" />
-                <div className="news-text">News Item 1</div>
+                <div className="news-text">All Stars Event</div>
                 <div className="news-button-container">
-                  <button type="button" className="btn btn-outline-primary" id="news-button">
-                    Go to News
-                  </button>
+                  <a href="https://asia.wotblitz.com/en/news/event/wish-upon-a-star/">
+                    <button type="button" className="btn btn-outline-primary" id="news-button">
+                      Go to News
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>
 
             <div className="news-objects">
               <div className="news-object-background">
-                <img src="/Wish-Upon-A-Star.jpg" className="news-image" alt="News Item 2" />
-                <div className="news-text">News Item 2</div>
+                <img src="/the_outlaws.jpg" className="news-image" alt="News Item 2" />
+                <div className="news-text">Operation "The Outlaws"</div>
                 <div className="news-button-container">
-                  <button type="button" className="btn btn-outline-primary" id="news-button">
-                    Go to News
-                  </button>
+                  <a href="https://na.wotblitz.com/en/news/event/battle-pass-60/">
+                    <button type="button" className="btn btn-outline-primary" id="news-button">
+                      Go to News
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -42,16 +46,18 @@ export default function NewsSection() {
             <div className="news-objects">
               <div className="news-object-background">
                 <img
-                  src="/Wish-Upon-A-Star.jpg"
+                  src="/atac.jpg"
                   className="news-image"
                   alt="News Item 3"
                   id="news-image-100"
                 />
-                <div className="news-text">News Item 3</div>
+                <div className="news-text">The Head-Spinning ATAC</div>
                 <div className="news-button-container">
-                  <button type="button" className="btn btn-outline-primary" id="news-button">
-                    Go to News
-                  </button>
+                  <a href="https://na.wotblitz.com/en/news/event/atac/">
+                    <button type="button" className="btn btn-outline-primary" id="news-button">
+                      Go to News
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>
