@@ -53,25 +53,32 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const res = await fetch("http://localhost:5050/login", { //Request data / headers (to the backend API)
+      const res = await fetch("http://localhost:5050/login", {
         method: "POST",
         headers: { 
-          "Content-Type": "application/json"},
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ email, password }),
-        credentials: 'include',  // This tells the browser to send cookies
+        credentials: 'include',  // Send cookies with request
       });
   
       if (res.ok) {
         const data = await res.json();
-
-        const csrfToken = res.headers.get("X-csrf-token");
+  
+        const csrfToken = res.headers.get("X-Csrf-Token");
         localStorage.setItem("csrfToken", csrfToken);
-
+  
         if (data.success) {
-          console.log("Login Username: " + username)
-          navigate('/stats', { state: { result: username } }); //CSRF Token is recived
+          // Use the favourite username if provided, otherwise fallback to blank
+          const favouriteUsername = data.favouriteUsername || "";
+  
+          localStorage.setItem("favouriteUsername", favouriteUsername)
+
+          console.log("Login successful, navigating with favourite username:", favouriteUsername);
+  
+          navigate('/stats', { state: { result: favouriteUsername } }); 
         }
       } else {
         const errData = await res.json();
@@ -150,7 +157,7 @@ export default function LoginPage() {
   
                 {/* Social Login Logos */}
                 <div id="logos">
-                  <a className="login-logo" href="">
+                  <a className="login-logo" href="https://www.facebook.com/">
                     <svg svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="50px" height="50px">
                         <path fill="#8bb7f0" d="M40 2A38 38 0 1 0 40 78A38 38 0 1 0 40 2Z"/>
                         <path fill="#fff" d="M77.784 44.013c.006-.054.016-.106.021-.159C77.8 43.907 77.79 43.96 77.784 44.013zM2.194 43.84c.007.073.021.144.029.217C2.215 43.985 2.201 43.912 2.194 43.84zM44.907 50.471h9.835l1.544-9.989H44.907v-5.46c0-4.149 1.356-7.83 5.239-7.83h6.238v-8.719C55.287 18.325 52.97 18 48.59 18c-9.146 0-14.507 4.831-14.507 15.835v6.647h-9.402v9.989h9.402V77.4c1.858.279 3.744.47 5.68.47 1.749 0 3.458-.159 5.144-.388V50.471z"/>
@@ -160,7 +167,7 @@ export default function LoginPage() {
                     </svg>
                   </a>
                 
-                  <a className="login-logo" href="">
+                  <a className="login-logo" href="https://x.com/i/flow/login">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64px" height="64px">
                         <linearGradient id="HOaxCdew_So_FZGl4pPQ6a" x1="32" x2="32" y1="9" y2="55" gradientUnits="userSpaceOnUse">
                           <stop offset="0" stop-color="#1a6dff"/>
@@ -175,7 +182,7 @@ export default function LoginPage() {
                     </svg>
                   </a>
 
-                  <a className="login-logo" href="">
+                  <a className="login-logo" href="https://accounts.google.com/">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px" aria-label="Google logo" role="img">
                         <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
                         <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>

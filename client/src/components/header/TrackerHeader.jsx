@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../../styles/main.css';
 import PongModal from '../OOP_Game/Snake';
 
@@ -11,8 +12,9 @@ export default function TrackerNavBar() {
         <img src="/WOTB_logo.png" alt="World of Tanks Blitz Logo" />
       </a>
       <div className="tracker-nav-bar-elements">
-        <a className="tracker-nav-bar-buttons" href="/home">Home</a>
-        <a className="tracker-nav-bar-buttons" href="/api">API</a>
+        <Link className="tracker-nav-bar-buttons" to="/">
+          Home
+        </Link>
         <div className="push-right" id="login-right-button-container">
           <div>
             <button className="btn btn-primary" id="login-button" onClick={() => setShowPong(true)}>Play Snake</button>

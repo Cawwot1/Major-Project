@@ -12229,6 +12229,7 @@ a {
   align-items: center;
   padding: 0 8px 0 8px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 #wg-games-holder {
@@ -12264,6 +12265,7 @@ a {
   align-items: center;
   padding: 0 8px 0 11px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 #wg-services-holder {

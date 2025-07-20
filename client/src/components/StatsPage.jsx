@@ -21,6 +21,42 @@ export default function StatsPage() {
   const csrfToken = localStorage.getItem('csrfToken');
   console.log(csrfToken)
 
+  //Favourite Button Pressed
+  const handleFavouriteClick = async () => {
+    const newFavouriteState = !isFavourited;
+    setIsFavourited(newFavouriteState);
+  
+    if (newFavouriteState) {
+      localStorage.setItem("favouriteUsername", username);
+    } else {
+      localStorage.removeItem("favouriteUsername");
+    }
+  
+    try {
+      const csrfToken = localStorage.getItem('csrfToken'); // if using CSRF
+      const response = await fetch('http://localhost:5050/favourite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'csrfToken': csrfToken || '' // optional
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          favouriteUsername: username,  // the player name being favourited/unfavourited
+          isFavourited: newFavouriteState
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update favourite');
+      }
+  
+      console.log('Favourite status updated');
+    } catch (err) {
+      console.error('Error updating favourite:', err);
+    }
+  };  
+
   //SEARCH BUTTON PRESSED
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -33,6 +69,17 @@ export default function StatsPage() {
       alert("Navigation failed due to an unexpected issue.");
     }    
   };  
+
+  useEffect(() => {
+    if (!username) return;
+  
+    const savedFavourite = localStorage.getItem("favouriteUsername");
+    if (savedFavourite && savedFavourite === username) {
+      setIsFavourited(true);
+    } else {
+      setIsFavourited(false);
+    }
+  }, [username]);  
 
   useEffect(() => {
     setLoading(true);
@@ -175,7 +222,7 @@ export default function StatsPage() {
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
                   title="Add to favourites"
-                  onClick={() => setIsFavourited(!isFavourited)}>
+                  onClick={() => handleFavouriteClick()}>
                   <svg 
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -206,7 +253,7 @@ export default function StatsPage() {
                   <tr>
                     <th scope="row" className='fw-normal stats-table-column'>Battles</th>
                     <td>{all.battles}</td>
-                    <td></td>
+                    <td>{"-"}</td>
                   </tr>
                   <tr>
                     <th scope="row" className='fw-normal'>
@@ -226,17 +273,17 @@ export default function StatsPage() {
                         : 'red'}>
                       {all.battles>0?(all.wins / all.battles *100).toFixed(2) : '-'}%
                     </td>
-                    <td></td>
+                    <td>{"-"}</td>
                   </tr>
                   <tr>
                     <th scope="row" className='fw-normal'>Battles Survived</th>
                     <td>{all.survived_battles}</td>
-                    <td></td>
+                    <td>{"-"}</td>
                   </tr>
                   <tr>
                     <th scope="row" className='fw-normal'>Points Captured</th>
                     <td>{all.capture_points}</td>
-                    <td></td>
+                    <td>{"-"}</td>
                   </tr>
                   <tr>
                     <th scope="row" className='fw-bold'>Average Battle Values</th>
@@ -258,7 +305,7 @@ export default function StatsPage() {
                         ? 'orange'
                         : 'red'}>
                         {all.damage_dealt>0?(all.damage_dealt / all.battles).toFixed(0) : '-'}</td>
-                    <td></td>
+                      <td>{"-"}</td>
                   </tr>
                   <tr>
                     <th scope="row" className='fw-normal'>Destroyed Tanks</th>
@@ -276,12 +323,12 @@ export default function StatsPage() {
                       : 'red'}>
                       {all.frags>0?(all.frags / all.battles).toFixed(1) : '-'}
                     </td>
-                    <td></td>
+                    <td>{"-"}</td>
                   </tr>
                   <tr>
                     <th scope="row" className='fw-normal'>Experience</th>
                     <td>{all.xp>0?(all.xp / all.battles).toFixed(0) : '-'}</td>
-                    <td></td>
+                    <td>{"-"}</td>
                   </tr>
                   <tr>
                     <th scope="row" className={'fw-normal'}>
@@ -301,7 +348,7 @@ export default function StatsPage() {
                         : 'red'}>
                       {(all.battles-all.survived_battles)>0?(all.frags / (all.battles-all.survived_battles)).toFixed(2) : '-'}
                     </td>
-                    <td></td>
+                    <td>{"-"}</td>
                   </tr>
                   <tr>
                     <th scope="row" className='fw-normal'>Tanks Spotted</th>
@@ -311,12 +358,7 @@ export default function StatsPage() {
                   <tr>
                     <th scope="row" className='fw-normal'>Shots</th>
                     <td>{all.shots>0?(all.shots / all.battles).toFixed(1) : '-'}</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <th scope="row" className='fw-normal'>Damage Recieved</th>
-                    <td>{all.damage_recieved>0?(all.damage_recieved / all.battles).toFixed(0) : '-'}</td> 
-                    <td></td>
+                    <td>{"-"}</td>
                   </tr>
                 </tbody>
               </table>

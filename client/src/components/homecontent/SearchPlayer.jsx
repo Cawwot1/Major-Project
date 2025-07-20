@@ -10,21 +10,25 @@ export default function PlayerSearch() {
   const [result, setResult] = useState(null);
   const navigate = useNavigate(); // React Router hook
     
-  const handleSearch = async () => { //=> shorter method of defining functions
+  const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost:5050/player-search?nickname=${encodeURIComponent(username)}`); //encodes username
-      const data = await response.json(); // parses the response as JSON
-      setResult(data); //Stores data for local comp. use
-
-      // Print result to console for debugging
-      console.log('SearchPage result:', data);
-
-      navigate('/stats', { state: { result: data } }); //Passing data object
+      const response = await fetch(`http://localhost:5050/player-search?nickname=${encodeURIComponent(username)}`);
+  
+      if (!response.ok) {
+        // If response is not ok (like 401 Unauthorized), navigate to login
+        navigate('/login');
+        return; // stop further execution
+      }
+  
+      const data = await response.json();
+      setResult(data);
+  
+      navigate('/stats', { state: { result: data } });
+    } catch (error) {
+      console.error('Error fetching player data:', error);
+      navigate('/login');
     }
-    catch (error) {
-      console.error('Error fetching player data:', error); //Notifies error
-    }
-  };
+  };  
 
   return (
     <div className="container-fluid" id="player-search-form-container">
@@ -37,7 +41,8 @@ export default function PlayerSearch() {
         id="player-search-form" 
         placeholder="Enter Username"
         value={username} 
-        onChange={(e) => setUsername(e.target.value)}/> 
+        onChange={(e) => setUsername(e.target.value)}
+        autoComplete="off"/> 
       <div id="home-player-search-container">
         <button type="button" className="btn btn-primary" id="home-player-search-button" onClick={handleSearch}>
           Search Player
