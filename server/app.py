@@ -67,7 +67,7 @@ def player_search():
     session_token = request.cookies.get('session_token')
 
     #  Check CSRF token
-    if csrf_token != session.get("csrf-token"):
+    if not verify_csrf_token(csrf_token):
         return make_response({'error': 'Given CSRF Token does not match stored token'}), 400
 
     if not session_token:
@@ -121,7 +121,7 @@ def login():
         response.headers["X-Csrf-Token"] = csrf_token
         # Set session cookie and store CSRF token in session
         response.set_cookie('session_token', session_token, httponly=True, secure=False, samesite='Lax')
-        session["csrf-token"] = csrf_token
+        store_csrf_token(csrf_token)
 
         return response
     else:
@@ -141,7 +141,7 @@ def signup():
         response = make_response({"success": True})
         response.headers["X-Csrf-Token"] = csrf_token
         response.set_cookie('session_token', session_token, httponly=True, secure=False, samesite='Lax')
-        session["csrf-token"] = csrf_token
+        store_csrf_token(csrf_token)
         return response
 
     return make_response({"success": False, "error": "Account creation failed"}, 400)

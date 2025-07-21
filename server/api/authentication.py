@@ -126,6 +126,16 @@ def change_user_password(email, new_password):
 
     return True
 
+#CSRF MANAGEMENT
+def store_csrf_token(csrf_token):
+    session["csrf-token"] = csrf_token
+
+def get_csrf_token():
+    return session.get("csrf-token")
+
+def verify_csrf_token(csrf_token_from_request):
+    stored_token = get_csrf_token()
+    return csrf_token_from_request == stored_token
 
 # Print every document in the collection
 for doc in users.find():

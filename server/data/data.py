@@ -1,4 +1,5 @@
 from data.database import db
+from api.authentication import *
 
 sessions = db["sessions"]
 favourites = db["favourites"]
