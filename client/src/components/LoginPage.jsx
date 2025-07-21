@@ -99,7 +99,12 @@ export default function LoginPage() {
   
       if (res.ok && data.success === true) {
         console.log("Change Password Successful");
-        handleLoginToggle();
+        setForgotEmail('');
+        setForgotUsername('');
+        setCodeInput('');
+        setGeneratedCode('');
+        setNewPassword('');
+        handleLoginToggle('');
         return;
       } else if (data.error) {
         alert(data.error);
