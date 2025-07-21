@@ -472,7 +472,7 @@ export default function LoginPage() {
                       New Password
                     </label>
                     <input
-                      type="text"
+                      type="password"
                       name="newPassword"
                       className="form-control"
                       id="change-password-input"
