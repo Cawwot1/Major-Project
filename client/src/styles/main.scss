@@ -912,6 +912,35 @@ color: White;
   margin-top: 2.3vh;
 }
 
+//FORGOT PASSWORD CONTAINER
+#forgot-password-1-content{
+  padding: 4vh 0vw 0vh 0vw;
+}
+
+#forgot-button-container{
+  padding-top: 3vh;
+}
+
+//Code Popup
+
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: white;
+  padding: 2rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.popup-content {
+  margin-bottom: 1rem;
+}
+
+
 /* ---------------------------------------------------------------------- */
 // USER STATS
 /* ---------------------------------------------------------------------- */

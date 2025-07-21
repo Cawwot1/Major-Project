@@ -6,15 +6,26 @@ from api.WG_API import *
 from data.data import *
 import google.generativeai as genai
 from werkzeug.exceptions import BadRequest, HTTPException
+import os
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, expose_headers=["X-Csrf-Token"])
-app.secret_key = 'your-secret-key'  #  Required for session handling and CSRF protection
+app.secret_key = os.getenv("SECRET_KEY", "fallback-key-for-dev")
+
 
 genai.configure(api_key="AIzaSyAhvn5SuzIQVz9QoVGzuYH8FTJ4ofKorUo")
 
 # --- Routes ---
-
+@app.after_request
+def modify_response_headers(response: Response):
+    #Remove 'Server' header if present
+    if 'Server' in response.headers:
+        del response.headers['Server']
+    
+    #Set security headers
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    
+    return response
 @app.route('/')
 def index():
     return make_response({"message": "API is running"}), 200  #  Simple health check route
@@ -195,6 +206,33 @@ def favourite():
         print("Favourite route error:", e)
         return make_response(jsonify({"error": "Internal server error"}), 500)
 
+@app.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+    username = escape(data.get('forgotUsername'))
+    email = escape(data.get('forgotEmail'))
+
+    if not username or not email:
+        return jsonify({'error': 'Username and email are required'}), 400
+    
+    result = verify_username_with_email(email, username)
+    if result:
+        return make_response(jsonify({"success": True}), 200)
+    else:
+        return jsonify({'error': 'Wrong username or email'}), 400
+    
+@app.route('/change-password', methods=['POST'])
+def change_password():
+    data = request.get_json()
+    email = escape(data.get('forgotEmail'))
+    new_password = escape(data.get('newPassword'))
+
+    if not new_password:
+        return jsonify({'error': 'A new password is required'}), 400
+
+    change_user_password(email, new_password)
+
+    return make_response(jsonify({"success": True}), 200)
 
 @app.errorhandler(HTTPException)
 def handle_http_exception(e):

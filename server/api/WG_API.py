@@ -29,7 +29,7 @@ def search_request(nickname, type):
 
     for server in REALMS:
         
-        response = requests.get(BASE_URL + server + "/wotb/account/list/", params=params)
+        response = requests.get(BASE_URL + server + "/wotb/account/list/", params=params, timeout=20)
 
         if response.status_code == 200:
             json_data = response.json()  # Parse JSON response into a dict
@@ -66,7 +66,7 @@ def player_data(player_id, server, access_token=None):
     if access_token != None:
         params["access_token"] = access_token
 
-    response = requests.get(BASE_URL + server + "/wotb/account/info/", params=params)
+    response = requests.get(BASE_URL + server + "/wotb/account/info/", params=params, timeout=20)
     
     json_data = response.json()
     data_dict = json_data.get("data", {})

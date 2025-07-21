@@ -98,7 +98,34 @@ def generate_csrf_token():
 def generate_session_token():
     return base64.urlsafe_b64encode(secrets.token_bytes(32)).decode()
 
-users = db["users"]
+def verify_username_with_email(email, username):
+    email = email.lower()  # Normalise email
+    user = users.find_one({"email": email})
+
+    if user:
+        return user.get("username") == username
+    return False
+
+def change_user_password(email, new_password):
+    email = email.lower()  # Normalize email
+
+    # Validate password
+    if not PASSWORD_PATTERN.match(new_password):
+        abort(400, description="Password must be 8-40 characters, include at least one uppercase letter and one number")
+
+    # Find the user
+    user = users.find_one({"email": email})
+    if not user:
+        abort(400, description="User with this email does not exist")
+
+    # Hash the new password
+    hashed = hash_password(new_password)
+
+    # Update the password in the database
+    users.update_one({"email": email}, {"$set": {"password": hashed}})
+
+    return True
+
 
 # Print every document in the collection
 for doc in users.find():

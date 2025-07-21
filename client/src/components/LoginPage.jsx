@@ -5,17 +5,115 @@ import { useNavigate } from "react-router-dom";
 export default function LoginPage() {
     
   const navigate = useNavigate();
-  const [isSignup, setIsSignup] = useState(false);
+  const [mode, setMode] = useState("login"); // can be "login", "signup", "forgot" or "change"
 
   const handleLoginSignupChange = (e) => {
     e.preventDefault();
-    setIsSignup(prev => !prev); // flips isSignup between true and false
+    setMode(prev => (prev === "signup" ? "login" : "signup"));
+  };
+
+  const handleForgotPasswordToggle = (e) => {
+    e.preventDefault();
+    setMode(prev => (prev === "forgot" ? "login" : "forgot"));
+  };
+
+  const handleChangePasswordToggle = () => {
+    const newCode = Math.floor(100000 + Math.random() * 900000).toString(); // e.g., "423984"
+    setGeneratedCode(newCode);
+    setShowCodePopup(true); // show popup with the code
+    setMode("change");
+  };
+  
+  const handleLoginToggle = () => {
+    setMode("login"); 
   };
 
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [forgotEmail, setForgotEmail] = useState(''); //stores the email on the forgot password container
+  const [forgotUsername, setForgotUsername] = useState(null);
+  
+  //Change Password
+  const [generatedCode, setGeneratedCode] = useState('');
+  const [codeInput, setCodeInput] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [showCodePopup, setShowCodePopup] = useState(false);
 
+
+  //FORGOT PASSWORD HANDLER
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+  
+    if (!forgotUsername || !forgotEmail) {
+      let emptyFields = [];
+      if (!forgotUsername) emptyFields.push('Username');
+      if (!forgotEmail) emptyFields.push('Email');
+      alert(`${emptyFields.join(' and ')} is empty`);
+      return;
+    }
+  
+    try {
+      console.log("Forgot Password Request Sent");
+  
+      const res = await fetch('http://localhost:5050/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ forgotUsername, forgotEmail })
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok && data.success === true) {
+        console.log("Forgot Password Successful");
+        handleChangePasswordToggle();
+        return;
+      } else if (data.error) {
+        alert(data.error);
+      } else {
+        alert('Something went wrong.');
+      }
+    } catch (err) {
+      alert('Network or server error.');
+      console.error(err);
+    }
+  };  
+
+  //CHANGE PASSWORD HANDLER
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+  
+    if (codeInput !== generatedCode) {
+      alert("Invalid code. Please try again.");
+      return;
+    }
+  
+    try {
+      const res = await fetch('http://localhost:5050/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPassword, forgotEmail })
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok && data.success === true) {
+        console.log("Change Password Successful");
+        handleLoginToggle();
+        return;
+      } else if (data.error) {
+        alert(data.error);
+      } else {
+        alert('Something went wrong.');
+      }
+    } catch (err) {
+      alert('Network or server error.');
+      console.error(err);
+    }
+  };
+  
+
+  //SIGNUP HANDLER
   const handleSignup = async (e) => {
     e.preventDefault();
   
@@ -51,6 +149,7 @@ export default function LoginPage() {
     }
   };
 
+  //LOGIN HANDLER
   const handleLogin = async (e) => {
     e.preventDefault();
   
@@ -102,6 +201,16 @@ export default function LoginPage() {
           Your browser does not support the video tag.
         </video>
   
+        {showCodePopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <p className="login-text">Your verification code:</p>
+            <h3>{generatedCode}</h3>
+            <button className="btn btn-secondary" onClick={() => setShowCodePopup(false)}>Close</button>
+          </div>
+        </div>
+        )}
+
         {/* Main Content */}
         <section className="main-content" id="login-main-content">
           <section className="section-flex" id="login-section">
@@ -109,7 +218,7 @@ export default function LoginPage() {
               
               {/* Login Container */}
 
-              <div className={`auth-elements ${isSignup ? 'fade-out' : 'fade-in'}`}> {/* If isSignup = True, trigger fade-out in css */}
+              <div className={`auth-elements ${mode === "login" ? 'fade-in' : 'fade-out'}`}> {/* If isSignup = True, trigger fade-out in css */}
                 <p className="title login-text">Login</p>
                 <form onSubmit={handleLogin} class="login-form">
                   <div className="mb-3">
@@ -142,8 +251,8 @@ export default function LoginPage() {
                     />
                   </div>
                   <div className="text-container-right" id="forgot-password-container">
-                    <a href="" className="login-text" id="forgot-password-text">
-                      <p></p>
+                    <a className="login-text" id="forgot-password-text" onClick={handleForgotPasswordToggle}>
+                      <p>Forgot Password?</p>
                     </a>
                   </div>
                   <div id="login-button-container">
@@ -200,7 +309,7 @@ export default function LoginPage() {
 
               {/* Signup Container */}
 
-              <div className={`auth-elements ${isSignup ? 'fade-in' : 'fade-out'}`}> {/* If isSignup = True, trigger fade-out in css */}
+              <div className={`auth-elements ${mode === "signup" ? 'fade-in' : 'fade-out'}`}> {/* If isSignup = True, trigger fade-out in css */}
                 <p className="title login-text">Signup</p>
                 <form onSubmit={handleSignup} class="login-form">
                   <div className="mb-3">
@@ -295,6 +404,89 @@ export default function LoginPage() {
                 <a className="auth-link" id="go-back-link" onClick={handleLoginSignupChange}>
                   <p>Go Back</p>
                 </a>
+              </div>
+
+              {/* FORGOT PASSWORD CONTAINER */}
+              <div className={`auth-elements ${mode === "forgot" ? 'fade-in' : 'fade-out'}`}>
+                <p className="title login-text">Forgot Password</p>
+                <form onSubmit={handleForgotPassword} className="login-form">
+                  <div className="mb-3">
+                    <label htmlFor="forgot-email-input" className="form-label login-text">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="forgotEmail"
+                      className="form-control"
+                      id="forgot-email-input"
+                      placeholder="name@example.com"
+                      value={forgotEmail}
+                      onChange={e => setForgotEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="forgot-user-input" className="form-label login-text">
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      name="forgotUsername"
+                      className="form-control"
+                      id="forgot-user-input"
+                      placeholder="Username123"
+                      value={forgotUsername}
+                      onChange={e => setForgotUsername(e.target.value)}
+                    />
+                  </div>
+                  <div id="forgot-button-container">
+                    <button type="submit" className="btn btn-primary auth-login-button" id="forgot-button">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+                <a className="auth-link" id="forgot-password-1-content" onClick={handleLoginToggle}>
+                  <p>Go Back</p>
+                </a>
+              </div>
+
+              {/* CHANGE PASSWORD CONTAINER */}
+              <div className={`auth-elements ${mode === "change" ? 'fade-in' : 'fade-out'}`}>
+                <p className="title login-text">Change Password</p>
+                <form onSubmit={handleChangePassword} className="login-form"> 
+                  <div className="mb-3">
+                    <label htmlFor="code-input" className="form-label login-text">
+                      Code
+                    </label>
+                    <input
+                      type="text"
+                      name="code"
+                      className="form-control"
+                      id="code-input"
+                      placeholder="name@example.com"
+                      value={codeInput}
+                      onChange={e => setCodeInput(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="change-password-input" className="form-label login-text">
+                      New Password
+                    </label>
+                    <input
+                      type="text"
+                      name="newPassword"
+                      className="form-control"
+                      id="change-password-input"
+                      placeholder="Password@123"
+                      value={newPassword}
+                      onChange={e => setNewPassword(e.target.value)}
+                    />
+                  </div>
+                  <div id="forgot-button-container">
+                    <button type="submit" className="btn btn-primary auth-login-button" id="forgot-button">
+                      Change Password
+                    </button>
+                  </div>
+                </form>
               </div>
 
             </div>
