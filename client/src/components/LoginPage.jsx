@@ -467,7 +467,7 @@ export default function LoginPage() {
                       name="code"
                       className="form-control"
                       id="code-input"
-                      placeholder="name@example.com"
+                      placeholder="******"
                       value={codeInput}
                       onChange={e => setCodeInput(e.target.value)}
                     />
