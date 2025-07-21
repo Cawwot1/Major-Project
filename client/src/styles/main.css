@@ -12775,6 +12775,10 @@ body {
 
 #login-button-container {
   width: 100%;
+  margin-bottom: 5vh;
+}
+
+#signup-button-container {
   margin-bottom: 3vh;
 }
 
