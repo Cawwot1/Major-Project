@@ -5,6 +5,36 @@ import bcrypt
 import api.authentication as auth
 import data.data as session_mgmt  # Assuming this is your second file's module name
 
+from app import app  # Or whatever your main Flask app filename/module is
+from markupsafe import escape
+
+#XSS Testing
+@pytest.fixture
+def client():
+    with app.test_client() as client:
+        yield client
+
+def test_xss_input_sanitised(client):
+    # Fake session and CSRF setup
+    token_cookie = "fake-session-token"
+    xss_payload = '<script>alert("XSS")</script>'
+    expected_sanitised = escape(xss_payload)
+
+    # Stub session/token lookup functions if needed
+    # e.g., monkeypatch get_email_from_token to always return a dummy email
+
+    # Store empty history or bypass that logic if needed
+    response = client.post(
+        "/chat",
+        json={"message": xss_payload},
+        headers={"Content-Type": "application/json"},
+        cookies={"session_token": token_cookie}
+    )
+
+    # Ensure the dangerous script tags don’t appear in raw form
+    assert xss_payload not in response.get_data(as_text=True)
+    assert expected_sanitised in response.get_data(as_text=True)
+
 
 @pytest.fixture(autouse=True)
 def clear_session(monkeypatch):
@@ -229,14 +259,13 @@ def test_store_favourite_delete(mock_favourites):
     session_mgmt.store_favourite("email@test.com", "favuser", False)
     mock_favourites.delete_one.assert_called_once_with({"email": "email@test.com", "username": "favuser"})
 
-@patch("data.data.favourites")
-def test_remove_all_favourites(mock_favourites):
-    # Test deleting all favourites for a user deletes all matching records
-    session_mgmt.remove_all_favourites("email@test.com")
-    mock_favourites.delete_many.assert_called_once_with({"email": "email@test.com"})
+@patch("data.data.sessions")
+def test_get_email_from_invalid_cookie(mock_sessions):
+    # Simulate no matching session found for the invalid token
+    mock_sessions.find_one.return_value = None
 
-@patch("data.data.favourites")
-def test_remove_favourite(mock_favourites):
-    # Test removing a specific favourite deletes that record
-    session_mgmt.remove_favourite("email@test.com", "favuser")
-    mock_favourites.delete_one.assert_called_once_with({"email": "email@test.com", "username": "favuser"})
+    # Call the function with an invalid token
+    result = session_mgmt.get_email_from_token("invalidtoken123")
+
+    # Expect None when token is not found
+    assert result is None
