@@ -25,16 +25,16 @@ export default function WargamingNavBar() {
           </p>
         </div>
       </a>
-      <div id="wg-premium-wrapper-main" href="https://wargaming.net/shop/">
+      <a id="wg-premium-wrapper-main" href="https://wargaming.net/shop/">
         <div id="wg-premium-holder">
           <p id="wargaming-nav-bar-premium-text">Premium Shop</p>
         </div>
-      </div>
-      <div id="wg-support-wrapper-main" href="https://wargaming.net/support/en/">
+      </a>
+      <a id="wg-support-wrapper-main" href="https://wargaming.net/support/en/">
         <div id="wg-support-holder">
           <p id="wargaming-nav-bar-support-text">Player Support</p>
         </div>
-      </div>
+      </a>
     </div>
   );
 }
