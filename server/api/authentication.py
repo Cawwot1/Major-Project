@@ -73,7 +73,6 @@ def password_verify(entered_password, hashed_password):
     else:
         return False
 
-
 def input_validation(password, username, email):
 
     print(email)

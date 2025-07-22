@@ -247,4 +247,4 @@ def handle_http_exception(e):
     return response
 
 if __name__ == "__main__":
-    app.run(port=5050, debug=True)  #  Start dev server on port 5050
+    app.run(port=5050, debug=False)  #  Start dev server on port 5050
